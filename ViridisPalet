@@ -1,0 +1,26 @@
+library(viridis)
+
+
+install.packages('viridis')
+
+
+BOG %>% 
+    gather(variable,category,-c("ORDEN","SECUENCIA P","DIRECTORIO","DEPARTAMENTO", "GTI")) %>%
+   count(variable, category) %>% 
+        mutate(percent=n/sum(n))%>%
+    ggplot(aes(x = variable,
+               y = percent,
+               fill = factor(category))) +
+    geom_col() +
+    labs(x = "Tipo de gasto",
+         y = "Porcentaje de hogares",
+         fill = "Respuesta:",
+         title = "Distribución de dinero restante mensual* en hogares de Bogotá - IEFIC-2017",
+          subtitle = "* Restante mensual equivale al dinero que queda después de cubrir gastos básicos",
+         caption = "Nombres de las variables: 
+         AHRR:Ahorrar, AVIV:  Ahorro para compra de vivienda")+
+  scale_fill_viridis_d(option = "E")+ # E nos gustó, H nos gustó
+    theme(axis.text.x = element_text(angle=30, hjust=1, vjust = 1),
+        title = element_text(size = 10),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 8, family = "serif"))
